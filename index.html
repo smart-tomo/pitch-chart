@@ -105,7 +105,7 @@ body{font-family:'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP','Yu 
 /* ══════════════════════════════════════
    CENTER
 ══════════════════════════════════════ */
-.center{background:#0f1b2d;display:flex;flex-direction:column;overflow:hidden;}
+.center{background:#0f1b2d;display:flex;flex-direction:column;overflow-y:auto;}
 
 /* AB header */
 .ab-hdr{
@@ -202,7 +202,7 @@ body{font-family:'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP','Yu 
 .rec-btn:active{transform:scale(0.98);}
 
 /* ── ピッチログ ── */
-.pitch-log{flex:1;overflow-y:auto;padding:5px 10px;}
+.pitch-log{flex:0 0 auto;max-height:200px;overflow-y:auto;padding:5px 10px;}
 .log-t{font-size:9px;letter-spacing:2px;color:var(--muted);margin-bottom:4px;font-family:'Oswald',sans-serif;}
 .log-tbl{width:100%;border-collapse:collapse;font-size:10px;}
 .log-tbl th{text-align:left;padding:3px 5px;color:var(--muted);font-family:'Oswald',sans-serif;font-size:9px;letter-spacing:.8px;border-bottom:1px solid var(--border);}
