@@ -10,6 +10,263 @@
   #reportModal { position: static !important; background: #fff !important; padding: 0 !important; }
   #reportInner { border-radius: 0 !important; box-shadow: none !important; }
 }
+
+/* ══════════════════════════════════════
+   スマホ用ポップアップ入力UI
+══════════════════════════════════════ */
+.sp-fab {
+  display: none;
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: none;
+  color: #000;
+  font-size: 28px;
+  font-weight: 900;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(56,189,248,0.5);
+  z-index: 200;
+  transition: transform .2s;
+}
+.sp-fab:active { transform: scale(0.92); }
+
+/* スマホ用ヘッダー */
+.sp-hdr {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 52px;
+  background: #0c1a2e;
+  border-bottom: 2px solid var(--accent);
+  z-index: 100;
+  align-items: center;
+  padding: 0 14px;
+  gap: 10px;
+}
+.sp-hdr-title { font-family: 'Oswald',sans-serif; font-size: 16px; font-weight: 700; color: var(--accent); letter-spacing: 2px; }
+.sp-hdr-ab { font-size: 13px; color: var(--text); font-weight: 700; }
+.sp-hdr-count { display: flex; gap: 8px; margin-left: auto; align-items: center; }
+.sp-hdr-btn { padding: 5px 10px; border-radius: 6px; border: 1px solid var(--border); background: rgba(255,255,255,0.06); color: var(--muted); font-size: 11px; font-weight: 700; cursor: pointer; font-family: inherit; }
+
+/* スマホ用打席リスト画面 */
+.sp-ablist-screen {
+  display: none;
+  position: fixed;
+  inset: 52px 0 0 0;
+  background: var(--bg);
+  z-index: 150;
+  overflow-y: auto;
+  padding: 12px;
+}
+
+/* ポップアップオーバーレイ */
+.sp-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  z-index: 300;
+  align-items: flex-end;
+  justify-content: center;
+}
+.sp-overlay.open { display: flex; }
+
+/* ポップアップ本体（ボトムシート） */
+.sp-sheet {
+  width: 100%;
+  max-height: 92vh;
+  background: var(--panel);
+  border-radius: 20px 20px 0 0;
+  overflow-y: auto;
+  padding: 0 0 40px;
+  animation: slideUp .25s ease;
+}
+@keyframes slideUp { from { transform: translateY(60px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+.sp-sheet-handle {
+  display: flex;
+  justify-content: center;
+  padding: 12px 0 8px;
+}
+.sp-sheet-handle::after {
+  content: '';
+  width: 40px; height: 4px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 2px;
+}
+
+.sp-step-indicator {
+  display: flex;
+  gap: 6px;
+  padding: 0 16px 12px;
+  align-items: center;
+}
+.sp-step-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--border);
+  transition: all .2s;
+}
+.sp-step-dot.active { background: var(--accent); width: 24px; border-radius: 4px; }
+.sp-step-dot.done { background: var(--green); }
+
+.sp-step-title {
+  font-family: 'Oswald',sans-serif;
+  font-size: 13px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-left: auto;
+  color: var(--muted);
+}
+
+.sp-sheet-body { padding: 0 14px; }
+
+/* スマホ用ゾーングリッド（大きめ） */
+.sp-zone-lbl { display: flex; justify-content: space-between; font-size: 10px; color: var(--muted); font-family: 'Oswald',sans-serif; margin-bottom: 4px; }
+.sp-zone-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
+  margin-bottom: 8px;
+}
+.sp-zcell {
+  aspect-ratio: 1;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 700;
+  transition: all .12s;
+  -webkit-tap-highlight-color: transparent;
+}
+.sp-zcell.sz { background: rgba(56,189,248,0.12); border: 1.5px solid rgba(56,189,248,0.4); }
+.sp-zcell.bz { background: rgba(255,255,255,0.04); border: 1.5px solid rgba(255,255,255,0.1); }
+.sp-zcell:active { transform: scale(0.93); filter: brightness(1.5); }
+.sp-zcell.sel-s { background: rgba(192,132,252,0.5) !important; border-color: var(--purple) !important; box-shadow: 0 0 12px rgba(192,132,252,0.5); }
+.sp-zcell.sel-p { background: rgba(251,146,60,0.5) !important; border-color: var(--orange) !important; box-shadow: 0 0 12px rgba(251,146,60,0.5); }
+
+/* スマホ用球種グリッド */
+.sp-type-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.sp-type-btn {
+  padding: 18px 8px;
+  border-radius: 12px;
+  border: 1.5px solid var(--border);
+  background: rgba(255,255,255,0.05);
+  color: var(--text);
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  text-align: center;
+  transition: all .15s;
+  -webkit-tap-highlight-color: transparent;
+}
+.sp-type-btn:active { transform: scale(0.95); }
+.sp-type-btn.on { background: var(--orange); border-color: var(--orange); color: #fff; box-shadow: 0 0 14px rgba(251,146,60,0.4); }
+
+/* スマホ用結果ボタン */
+.sp-res-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.sp-res-btn {
+  padding: 20px 8px;
+  border-radius: 12px;
+  border: 2px solid var(--border);
+  background: rgba(255,255,255,0.04);
+  color: var(--text);
+  font-size: 17px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  text-align: center;
+  transition: all .15s;
+  -webkit-tap-highlight-color: transparent;
+}
+.sp-res-btn:active { transform: scale(0.95); }
+
+/* ナビボタン（次へ・戻る） */
+.sp-nav { display: flex; gap: 10px; padding: 14px 14px 0; }
+.sp-nav-back {
+  flex: 0 0 auto;
+  padding: 16px 20px;
+  border-radius: 12px;
+  border: 1.5px solid var(--border);
+  background: transparent;
+  color: var(--muted);
+  font-size: 16px;
+  cursor: pointer;
+  font-family: inherit;
+}
+.sp-nav-next {
+  flex: 1;
+  padding: 16px;
+  border-radius: 12px;
+  border: none;
+  background: var(--accent);
+  color: #000;
+  font-size: 16px;
+  font-weight: 900;
+  cursor: pointer;
+  font-family: inherit;
+  letter-spacing: 1px;
+}
+.sp-nav-next:active { transform: scale(0.97); }
+.sp-nav-next:disabled { background: var(--border); color: var(--muted); }
+
+/* スマホ用打球グラウンド図 */
+.sp-field-wrap { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.sp-battype-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; width: 100%; }
+.sp-battype-btn {
+  padding: 16px 4px;
+  border-radius: 10px;
+  border: 1.5px solid var(--border);
+  background: rgba(255,255,255,0.04);
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  text-align: center;
+  -webkit-tap-highlight-color: transparent;
+}
+.sp-battype-btn.on { background: var(--green); border-color: var(--green); color: #000; }
+
+/* スマホ用投球ログ */
+.sp-log-screen {
+  display: none;
+  position: fixed;
+  inset: 52px 0 0 0;
+  background: var(--bg);
+  z-index: 150;
+  overflow-y: auto;
+  padding: 12px;
+}
+
+/* スマホ時PC非表示 */
+@media (max-width: 768px) {
+  .root { display: none !important; }
+  .hdr  { display: none !important; }
+  .sp-fab { display: flex; align-items: center; justify-content: center; }
+  .sp-hdr { display: flex; }
+}
+/* PC時スマホUI非表示 */
+@media (min-width: 769px) {
+  .sp-fab, .sp-hdr, .sp-ablist-screen, .sp-overlay, .sp-log-screen { display: none !important; }
+}
 /* ── フォント：外部依存なし・完全オフライン対応 ── */
 @font-face {
   font-family: 'Oswald';
@@ -830,6 +1087,77 @@ body{font-family:'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP','Yu 
     <button onclick="closeReport()" style="padding:12px 28px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.3);border-radius:8px;color:#fff;font-size:15px;cursor:pointer;">✕ 閉じる</button>
   </div>
 </div>
+
+<!-- ══════════════════════════════════════
+     スマホ用 UI
+══════════════════════════════════════ -->
+
+<!-- スマホヘッダー -->
+<div class="sp-hdr" id="spHdr">
+  <div class="sp-hdr-title">⚾ PITCH</div>
+  <div class="sp-hdr-ab" id="spHdrAB">第1打席</div>
+  <div class="sp-hdr-count">
+    <div class="cnt-g"><span class="cnt-l" style="font-size:11px">B</span><div class="cnt-dots" id="spBDots"></div></div>
+    <div class="cnt-g"><span class="cnt-l" style="font-size:11px">S</span><div class="cnt-dots" id="spSDots"></div></div>
+    <div class="cnt-g"><span class="cnt-l" style="font-size:11px">O</span><div class="cnt-dots" id="spODots"></div></div>
+  </div>
+  <button class="sp-hdr-btn" onclick="spShowAbList()">打席</button>
+  <button class="sp-hdr-btn" onclick="spShowLog()">ログ</button>
+</div>
+
+<!-- スマホ打席リスト画面 -->
+<div class="sp-ablist-screen" id="spAbListScreen">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+    <div style="font-family:'Oswald',sans-serif;font-size:14px;color:var(--accent);letter-spacing:1px;">打席一覧</div>
+    <button onclick="spCloseAbList()" style="padding:6px 14px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--muted);font-size:13px;cursor:pointer;font-family:inherit;">✕ 閉じる</button>
+  </div>
+  <div id="spAbListBody"></div>
+  <button onclick="addAB();spCloseAbList();" style="width:100%;padding:16px;margin-top:10px;background:rgba(56,189,248,0.1);border:1px dashed var(--accent);border-radius:10px;color:var(--accent);font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;">＋ 新しい打席</button>
+  <div style="margin-top:16px;padding:12px;background:rgba(255,255,255,0.03);border-radius:10px;border:1px solid var(--border);">
+    <div style="font-size:11px;color:var(--muted);margin-bottom:8px;font-family:'Oswald',sans-serif;letter-spacing:1px;">ゲーム情報</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+      <input type="text" id="spTeamA" placeholder="攻撃チーム" oninput="document.getElementById('teamA').value=this.value" style="background:rgba(255,255,255,0.06);border:1px solid var(--border);color:var(--text);padding:8px 10px;border-radius:7px;font-size:13px;font-family:inherit;">
+      <input type="text" id="spTeamB" placeholder="守備チーム" oninput="document.getElementById('teamB').value=this.value" style="background:rgba(255,255,255,0.06);border:1px solid var(--border);color:var(--text);padding:8px 10px;border-radius:7px;font-size:13px;font-family:inherit;">
+      <input type="text" id="spPitcher" placeholder="投手名" oninput="document.getElementById('pitcherName').value=this.value" style="background:rgba(255,255,255,0.06);border:1px solid var(--border);color:var(--text);padding:8px 10px;border-radius:7px;font-size:13px;font-family:inherit;">
+      <input type="text" id="spCatcher" placeholder="捕手名" oninput="document.getElementById('catcherName').value=this.value" style="background:rgba(255,255,255,0.06);border:1px solid var(--border);color:var(--text);padding:8px 10px;border-radius:7px;font-size:13px;font-family:inherit;">
+      <input type="date" id="spDate" oninput="document.getElementById('gameDate').value=this.value" style="background:rgba(255,255,255,0.06);border:1px solid var(--border);color:var(--text);padding:8px 10px;border-radius:7px;font-size:13px;font-family:inherit;grid-column:1/-1;">
+    </div>
+    <div style="margin-top:8px;text-align:center;">
+      <button onclick="exportCSV()" style="padding:10px 20px;background:rgba(74,222,128,0.12);border:1px solid var(--green);border-radius:8px;color:var(--green);font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;">📊 CSVエクスポート</button>
+    </div>
+  </div>
+</div>
+
+<!-- スマホ投球ログ画面 -->
+<div class="sp-log-screen" id="spLogScreen">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+    <div style="font-family:'Oswald',sans-serif;font-size:14px;color:var(--accent);letter-spacing:1px;">投球ログ</div>
+    <button onclick="spCloseLog()" style="padding:6px 14px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--muted);font-size:13px;cursor:pointer;font-family:inherit;">✕ 閉じる</button>
+  </div>
+  <div id="spLogBody"></div>
+</div>
+
+<!-- ポップアップ オーバーレイ -->
+<div class="sp-overlay" id="spOverlay">
+  <div class="sp-sheet" id="spSheet">
+    <div class="sp-sheet-handle"></div>
+
+    <!-- ステップインジケーター -->
+    <div class="sp-step-indicator" id="spStepIndicator"></div>
+
+    <!-- ステップ本体 -->
+    <div class="sp-sheet-body" id="spSheetBody"></div>
+
+    <!-- ナビ -->
+    <div class="sp-nav">
+      <button class="sp-nav-back" id="spBack" onclick="spPrevStep()">◀</button>
+      <button class="sp-nav-next" id="spNext" onclick="spNextStep()">次へ →</button>
+    </div>
+  </div>
+</div>
+
+<!-- FAB（フローティング記録ボタン） -->
+<button class="sp-fab" id="spFab" onclick="spOpenRecord()">＋</button>
 
 <div class="toast" id="toast"></div>
 
@@ -2013,7 +2341,328 @@ function toast(msg){
   setTimeout(()=>t.classList.remove('show'),2500);
 }
 
+/* ══════════════════════════════════════
+   スマホ UI ロジック
+══════════════════════════════════════ */
+const SP_STEPS = ['setup','type','pitch','result','batted'];
+let spStep = 0;
+let spSel = { setup:null, type:null, pitch:null, result:null, battedDir:null, battedType:null };
+const isMobile = () => window.innerWidth <= 768;
+
+// ── ヘッダー同期 ──
+function spSyncHeader(){
+  if(!isMobile()) return;
+  const ab = S.abs[S.cur];
+  document.getElementById('spHdrAB').textContent = ab ? `第${ab.num}打席${ab.batter?' / '+ab.batter:''}` : '';
+  spRenderCountDots();
+}
+
+function spRenderCountDots(){
+  const mk=(id,tot,fill,cls)=>{
+    const el=document.getElementById(id); if(!el)return;
+    el.innerHTML=Array(tot).fill(0).map((_,i)=>`<div class="cdot ${i<fill?'on-'+cls:''}" style="width:10px;height:10px;"></div>`).join('');
+  };
+  mk('spBDots',4,S.balls,'B');
+  mk('spSDots',3,S.strikes,'S');
+  mk('spODots',3,S.outs,'O');
+}
+
+// ── 打席リスト ──
+function spShowAbList(){
+  spRenderAbList();
+  document.getElementById('spAbListScreen').style.display='block';
+}
+function spCloseAbList(){
+  document.getElementById('spAbListScreen').style.display='none';
+}
+function spRenderAbList(){
+  const el=document.getElementById('spAbListBody'); if(!el)return;
+  el.innerHTML=S.abs.map((ab,i)=>{
+    const bdg=ab.pitches.map(p=>`<span class="badge b-${p.result}">${p.result}</span>`).join('');
+    return `<div onclick="spSelectAB(${i})" style="padding:14px;border-radius:10px;border:1.5px solid ${i===S.cur?'var(--accent)':'var(--border)'};background:${i===S.cur?'rgba(56,189,248,0.1)':'rgba(255,255,255,0.03)'};margin-bottom:8px;cursor:pointer;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
+        <span style="font-family:'Oswald',sans-serif;font-size:22px;font-weight:700;color:var(--accent);">${ab.num}</span>
+        <div>
+          <div style="font-size:14px;font-weight:700;">${ab.batter||'（打者未入力）'}${ab.catcher?` <span style="font-size:11px;color:var(--accent);font-weight:400;">🧤${ab.catcher}</span>`:''}</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:2px;">${ab.hand==='R'?'右打':'左打'} / ${ab.pitches.length}球</div>
+        </div>
+        <div style="margin-left:auto;display:flex;gap:3px;flex-wrap:wrap;max-width:120px;justify-content:flex-end;">${bdg}</div>
+      </div>
+      <div style="display:flex;gap:6px;">
+        <input type="text" value="${ab.batter}" placeholder="打者名" onclick="event.stopPropagation()"
+          oninput="S.abs[${i}].batter=this.value;spSyncHeader();renderABList();saveData();"
+          style="flex:1;background:rgba(255,255,255,0.06);border:1px solid var(--border);color:var(--text);padding:7px 10px;border-radius:7px;font-size:13px;font-family:inherit;">
+        <input type="text" value="${ab.catcher||''}" placeholder="捕手名" onclick="event.stopPropagation()"
+          oninput="S.abs[${i}].catcher=this.value;saveData();"
+          style="flex:1;background:rgba(255,255,255,0.06);border:1px solid var(--border);color:var(--text);padding:7px 10px;border-radius:7px;font-size:13px;font-family:inherit;">
+        <button onclick="event.stopPropagation();spToggleHand(${i})" style="padding:7px 12px;border-radius:7px;border:1px solid var(--border);background:${ab.hand==='R'?'var(--orange)':'transparent'};color:${ab.hand==='R'?'#fff':'var(--muted)'};font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;">
+          ${ab.hand==='R'?'右':'左'}打
+        </button>
+      </div>
+    </div>`;
+  }).join('');
+}
+function spSelectAB(idx){
+  S.cur=idx; recalcCount(); renderABList(); renderCurrentAB();
+  spSyncHeader(); spCloseAbList();
+}
+function spToggleHand(idx){
+  S.abs[idx].hand = S.abs[idx].hand==='R'?'L':'R';
+  saveData(); spRenderAbList();
+}
+
+// ── ログ画面 ──
+function spShowLog(){
+  spRenderLog();
+  document.getElementById('spLogScreen').style.display='block';
+}
+function spCloseLog(){
+  document.getElementById('spLogScreen').style.display='none';
+}
+function spRenderLog(){
+  const el=document.getElementById('spLogBody'); if(!el)return;
+  const ab=S.abs[S.cur];
+  if(!ab||!ab.pitches.length){
+    el.innerHTML='<div style="text-align:center;padding:40px;color:var(--muted);font-size:14px;">まだ投球記録がありません</div>';
+    return;
+  }
+  el.innerHTML=[...ab.pitches].reverse().map((p,ri)=>{
+    const i=ab.pitches.length-1-ri;
+    return `<div style="padding:12px 14px;border-radius:10px;border:1px solid var(--border);background:rgba(255,255,255,0.03);margin-bottom:8px;">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+        <span style="font-family:'Oswald',sans-serif;font-size:18px;font-weight:700;color:var(--muted);">#${p.num}</span>
+        <span style="font-family:'Oswald',sans-serif;font-size:13px;color:var(--muted);">${p.count}</span>
+        <span style="font-size:14px;font-weight:700;">${p.type}</span>
+        <span class="badge b-${p.result}" style="font-size:11px;padding:3px 8px;">${RL[p.result]}</span>
+        <span style="margin-left:auto;font-size:16px;font-weight:700;color:${p.matched?'var(--green)':'var(--red)'};">${p.matched?'✔':'✘'}</span>
+        <button onclick="spDelPitch(${i})" style="background:none;border:none;color:var(--red);cursor:pointer;font-size:16px;padding:0 4px;">✕</button>
+      </div>
+      <div style="display:flex;gap:6px;font-size:11px;flex-wrap:wrap;">
+        <span style="color:var(--purple);">構え：${p.setup?.label||'-'}</span>
+        <span style="color:var(--orange);">実際：${p.pitch?.label||'-'}</span>
+        ${p.battedDir?`<span style="color:var(--green);">${p.battedDir}${p.battedType?' '+p.battedType:''}</span>`:''}
+      </div>
+    </div>`;
+  }).join('');
+}
+function spDelPitch(idx){
+  delPitch(idx);
+  spSyncHeader();
+  spRenderLog();
+}
+
+// ── ポップアップ入力 ──
+function spOpenRecord(){
+  spStep=0;
+  spSel={setup:null,type:null,pitch:null,result:null,battedDir:null,battedType:null};
+  spRenderStep();
+  document.getElementById('spOverlay').classList.add('open');
+}
+function spCloseRecord(){
+  document.getElementById('spOverlay').classList.remove('open');
+}
+
+function spRenderStep(){
+  const steps=['捕手の構え','球　種','実際のコース','結　果','打球方向'];
+  const colors=['var(--purple)','var(--orange)','var(--accent)','var(--green)','var(--green)'];
+
+  // インジケーター
+  const indEl=document.getElementById('spStepIndicator');
+  indEl.innerHTML=steps.map((_,i)=>
+    `<div class="sp-step-dot ${i<spStep?'done':i===spStep?'active':''}"></div>`
+  ).join('')+`<div class="sp-step-title" style="color:${colors[spStep]}">${steps[spStep]}</div>`;
+
+  // ナビボタン
+  const back=document.getElementById('spBack');
+  const next=document.getElementById('spNext');
+  back.style.display = spStep===0?'none':'flex';
+  if(spStep===SP_STEPS.length-1){
+    next.textContent='✚ 記録する';
+    next.style.background='var(--accent)';
+  } else if(spStep===4){
+    next.textContent='スキップして記録';
+    next.style.background='var(--muted)';
+  } else {
+    next.textContent='次へ →';
+    next.style.background='var(--accent)';
+  }
+
+  const body=document.getElementById('spSheetBody');
+  const step=SP_STEPS[spStep];
+
+  if(step==='setup'||step==='pitch'){
+    const mode=step;
+    const selClass=mode==='setup'?'sel-s':'sel-p';
+    body.innerHTML=`
+      <div class="sp-zone-lbl"><span>外角</span><span>内角</span></div>
+      <div class="sp-zone-grid" id="spZoneGrid"></div>
+      <div style="font-size:10px;color:var(--muted);text-align:center;margin-top:4px;">
+        ${mode==='setup'?'▲ バックネット裏・捕手視点':'▲ 実際に来たコース'}
+      </div>`;
+    const grid=document.getElementById('spZoneGrid');
+    for(let r=0;r<5;r++) for(let c=0;c<5;c++){
+      const cell=document.createElement('div');
+      const sz=isSZ(r,c);
+      cell.className='sp-zcell '+(sz?'sz':'bz');
+      cell.title=ZN[r][c];
+      const sel=spSel[mode];
+      if(sel&&sel.r===r&&sel.c===c) cell.classList.add(selClass);
+      cell.onclick=()=>{
+        spSel[mode]={r,c,label:ZN[r][c],sz:sz};
+        document.querySelectorAll('.sp-zcell').forEach(x=>x.classList.remove(selClass));
+        cell.classList.add(selClass);
+      };
+      grid.appendChild(cell);
+    }
+
+  } else if(step==='type'){
+    body.innerHTML=`<div class="sp-type-grid">${
+      TYPES.map(t=>`<button class="sp-type-btn${spSel.type===t?' on':''}" onclick="spSelType('${t}',this)">${t}</button>`).join('')
+    }</div>`;
+
+  } else if(step==='result'){
+    const resMap=[
+      {k:'S',lbl:'ストライク',col:'var(--orange)'},
+      {k:'B',lbl:'ボール',col:'var(--accent)'},
+      {k:'F',lbl:'ファウル',col:'var(--purple)'},
+      {k:'H',lbl:'安　打',col:'var(--green)'},
+      {k:'O',lbl:'アウト',col:'var(--red)'},
+      {k:'W',lbl:'四球/死球',col:'var(--yellow)'},
+    ];
+    body.innerHTML=`<div class="sp-res-grid">${
+      resMap.map(r=>`
+        <button class="sp-res-btn" onclick="spSelResult('${r.k}',this)"
+          style="border-color:${r.col};color:${r.col};${spSel.result===r.k?`background:${r.col};color:${r.k==='B'?'#000':'r.k==='W'?'#000':'#fff'};`:''}"
+        >${r.lbl}</button>`).join('')
+    }</div>`;
+
+  } else if(step==='batted'){
+    body.innerHTML=`
+      <div class="sp-field-wrap">
+        <svg width="220" height="200" viewBox="0 0 180 160" id="spFieldSvg" style="display:block;">
+          <path d="M90,148 L8,20 L90,8 L172,20 Z" fill="rgba(74,222,128,0.06)" stroke="rgba(74,222,128,0.18)" stroke-width="1.5"/>
+          <polygon points="90,140 52,112 90,84 128,112" fill="rgba(251,191,36,0.1)" stroke="rgba(251,191,36,0.35)" stroke-width="1.2"/>
+          <circle cx="90" cy="112" r="5" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.25)" stroke-width="1"/>
+          <polygon points="90,148 84,142 90,136 96,142" fill="var(--yellow)" opacity="0.85"/>
+          <rect x="124" y="108" width="8" height="8" rx="1" fill="rgba(255,255,255,0.45)" transform="rotate(45,128,112)"/>
+          <rect x="86" y="80" width="8" height="8" rx="1" fill="rgba(255,255,255,0.45)" transform="rotate(45,90,84)"/>
+          <rect x="48" y="108" width="8" height="8" rx="1" fill="rgba(255,255,255,0.45)" transform="rotate(45,52,112)"/>
+          <path d="M90,148 L8,20 L50,20 L90,84 Z" fill="transparent" style="cursor:pointer" onclick="spSelDir('左翼')"/>
+          <path d="M90,84 L50,20 L90,8 Z" fill="transparent" style="cursor:pointer" onclick="spSelDir('左中')"/>
+          <path d="M90,84 L90,8 L130,20 Z" fill="transparent" style="cursor:pointer" onclick="spSelDir('中堅')"/>
+          <path d="M90,84 L130,20 L172,20 Z" fill="transparent" style="cursor:pointer" onclick="spSelDir('右中')"/>
+          <path d="M90,148 L128,112 L90,84 L172,20 Z" fill="transparent" style="cursor:pointer" onclick="spSelDir('右翼')"/>
+          <path d="M90,148 L52,112 L8,20 Z" fill="transparent" style="cursor:pointer" onclick="spSelDir('三塁側')"/>
+          <path d="M90,140 L52,112 L90,84 L128,112 Z" fill="transparent" style="cursor:pointer" onclick="spSelDir('投手前')"/>
+          <path d="M90,148 L128,112 L172,20 Z" fill="transparent" style="cursor:pointer" onclick="spSelDir('一塁側')"/>
+          <text x="28" y="70" text-anchor="middle" font-size="10" fill="rgba(74,222,128,0.6)" font-family="'Oswald',sans-serif">左翼</text>
+          <text x="62" y="30" text-anchor="middle" font-size="10" fill="rgba(74,222,128,0.6)" font-family="'Oswald',sans-serif">左中</text>
+          <text x="90" y="20" text-anchor="middle" font-size="10" fill="rgba(74,222,128,0.6)" font-family="'Oswald',sans-serif">中堅</text>
+          <text x="118" y="30" text-anchor="middle" font-size="10" fill="rgba(74,222,128,0.6)" font-family="'Oswald',sans-serif">右中</text>
+          <text x="152" y="70" text-anchor="middle" font-size="10" fill="rgba(74,222,128,0.6)" font-family="'Oswald',sans-serif">右翼</text>
+          <text x="24" y="128" text-anchor="middle" font-size="10" fill="rgba(251,191,36,0.6)" font-family="'Oswald',sans-serif">三塁</text>
+          <text x="90" y="120" text-anchor="middle" font-size="10" fill="rgba(251,191,36,0.6)" font-family="'Oswald',sans-serif">投前</text>
+          <text x="156" y="128" text-anchor="middle" font-size="10" fill="rgba(251,191,36,0.6)" font-family="'Oswald',sans-serif">一塁</text>
+          <circle id="spFieldMarker" cx="-99" cy="-99" r="12" fill="none" stroke="var(--green)" stroke-width="2.5" pointer-events="none"/>
+          <circle id="spFieldMarkerDot" cx="-99" cy="-99" r="5" fill="var(--green)" pointer-events="none"/>
+          <text id="spFieldDirLabel" x="90" y="157" text-anchor="middle" font-size="12" fill="var(--green)" font-family="'Oswald',sans-serif" font-weight="700">${spSel.battedDir||'タップして選択'}</text>
+        </svg>
+        <div class="sp-battype-grid">
+          ${BAT_TYPES.map(t=>`<button class="sp-battype-btn${spSel.battedType===t?' on':''}" onclick="spSelBatType('${t}',this)">${t}</button>`).join('')}
+        </div>
+      </div>`;
+    // マーカー復元
+    if(spSel.battedDir) spUpdateFieldMarker(spSel.battedDir);
+  }
+}
+
+function spSelType(t,btn){
+  spSel.type=t;
+  document.querySelectorAll('.sp-type-btn').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+}
+
+function spSelResult(k,btn){
+  spSel.result=k;
+  const resMap={S:'var(--orange)',B:'var(--accent)',F:'var(--purple)',H:'var(--green)',O:'var(--red)',W:'var(--yellow)'};
+  document.querySelectorAll('.sp-res-btn').forEach(b=>{ b.style.background=''; b.style.color=b.style.borderColor||''; });
+  btn.style.background=resMap[k];
+  btn.style.color=['B','W','H'].includes(k)?'#000':'#fff';
+  // 打球が必要かどうかで次ステップを調整
+}
+
+function spSelDir(dir){
+  spSel.battedDir=dir;
+  spUpdateFieldMarker(dir);
+  const lbl=document.getElementById('spFieldDirLabel');
+  if(lbl) lbl.textContent=dir;
+}
+function spUpdateFieldMarker(dir){
+  const coords=FIELD_COORDS[dir]; if(!coords)return;
+  const mk=document.getElementById('spFieldMarker');
+  const md=document.getElementById('spFieldMarkerDot');
+  if(mk){mk.setAttribute('cx',coords[0]);mk.setAttribute('cy',coords[1]);}
+  if(md){md.setAttribute('cx',coords[0]);md.setAttribute('cy',coords[1]);}
+}
+function spSelBatType(t,btn){
+  spSel.battedType=t;
+  document.querySelectorAll('.sp-battype-btn').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+}
+
+function spNextStep(){
+  // バリデーション
+  if(spStep===0&&!spSel.setup){ toast('構えのコースを選んでください'); return; }
+  if(spStep===1&&!spSel.type){ toast('球種を選んでください'); return; }
+  if(spStep===2&&!spSel.pitch){ toast('実際のコースを選んでください'); return; }
+  if(spStep===3){
+    if(!spSel.result){ toast('結果を選んでください'); return; }
+    // 安打・アウトの場合は打球ステップへ、それ以外は記録
+    if(['H','O'].includes(spSel.result)){
+      spStep=4; spRenderStep(); return;
+    } else {
+      spCommit(); return;
+    }
+  }
+  if(spStep===4){ spCommit(); return; }
+  spStep++;
+  spRenderStep();
+}
+function spPrevStep(){
+  if(spStep>0){ spStep--; spRenderStep(); }
+}
+
+function spCommit(){
+  const {setup,type,pitch,result,battedDir,battedType}=spSel;
+  if(!setup||!type||!pitch||!result) return;
+  const ab=S.abs[S.cur]; if(!ab)return;
+  const matched=setup.r===pitch.r&&setup.c===pitch.c;
+  const p={num:ab.pitches.length+1,count:`${S.balls}-${S.strikes}`,type,setup,pitch,result,matched,
+    battedDir:battedDir||null,battedType:battedType||null,ts:Date.now()};
+  ab.pitches.push(p);
+
+  if(result==='B'){if(S.balls<3)S.balls++;else{S.balls=0;S.strikes=0;}}
+  else if(result==='S'){if(S.strikes<2)S.strikes++;else{S.balls=0;S.strikes=0;}}
+  else if(result==='F'){if(S.strikes<2)S.strikes++;}
+  else if(['H','O','W'].includes(result)){ab.finalResult=result;S.balls=0;S.strikes=0;}
+
+  updateDots(); renderLog(); renderABList(); updateStats(); saveData();
+  spSyncHeader();
+  spCloseRecord();
+
+  const icon=matched?'✅':'⚠️';
+  const dirStr=battedDir?` ${battedDir}${battedType?' '+battedType:''}` :'';
+  toast(`${icon} #${p.num} ${type} → ${RL[result]}${dirStr}`);
+}
+
+// ウィンドウリサイズ時に対応
+window.addEventListener('resize',()=>{
+  if(isMobile()) spSyncHeader();
+});
+
 init();
+// init後にスマホヘッダー同期
+setTimeout(()=>{ if(isMobile()) spSyncHeader(); },100);
 </script>
 </body>
 </html>
